@@ -1,8 +1,15 @@
 package base
 
-abstract class Selector {
+abstract class Selector(val maximization : Boolean) {
 
-    var crossingProbability : Double = 0.0
+    var exclusivityChromosomes : Int = 0
 
-    abstract fun selectAndCross(population : List<Chromosome>) : List<Chromosome>
+    fun selectPopulation(population : List<Chromosome>) : List<Chromosome> {
+        val newPopulation = mutableListOf<Chromosome>()
+        newPopulation.addAll(population.sortedBy { it.rate }.take(exclusivityChromosomes))
+        return selectPopulation(population, newPopulation)
+    }
+
+    protected abstract fun selectPopulation(oldPopulation : List<Chromosome>, newPopulation : MutableList<Chromosome>) : List<Chromosome>
+
 }

@@ -5,31 +5,22 @@ import base.Crosser
 import base.Selector
 import kotlin.random.Random
 
-class RouletteSelector(private val crosser : Crosser, private val maximization: Boolean = true) : Selector() {
+class RouletteSelector(maximization: Boolean = true) : Selector(maximization) {
 
     var population: List<Chromosome>? = null
     var ranges: List<Double>? = null
 
-    override fun selectAndCross(population: List<Chromosome>): List<Chromosome> {
-        val newPopulation = mutableListOf<Chromosome>()
-        val ratings = population.map { if (maximization) it.rate else 1 / it.rate }
+    override fun selectPopulation(oldPopulation: List<Chromosome>, newPopulation : MutableList<Chromosome>): List<Chromosome> {
+        val ratings = oldPopulation.map { if (maximization) it.rate else 1 / it.rate }
         val ratingsSum = ratings.sum()
         val ranges = ratings.map { it / ratingsSum }
 
         this.ranges = ranges
-        this.population = population
+        this.population = oldPopulation
 
-        while (newPopulation.size < population.size) {
-            val firstParent = select()
-            val secondParent = select()
-            if(firstParent != null && secondParent != null) {
-                val shouldCross = Random.nextDouble(0.0, 1.0)
-                if (shouldCross < crossingProbability) {
-                    val newChildren = crosser.cross(Pair(firstParent, secondParent))
-                    newPopulation.addAll(newChildren.toList())
-                } else {
-                    newPopulation.addAll(listOf(firstParent, secondParent))
-                }
+        while (newPopulation.size < oldPopulation.size) {
+            select()?.let {
+                newPopulation.add(it.copy())
             }
         }
 

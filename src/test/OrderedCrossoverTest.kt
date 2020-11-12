@@ -1,6 +1,6 @@
 package test
 
-import algorithm.common.OrderedCrossover
+import algorithm.common.crosser.OrderedCrossover
 import base.Chromosome
 import org.junit.jupiter.api.Test
 

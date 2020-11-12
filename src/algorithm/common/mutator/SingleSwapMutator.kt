@@ -1,4 +1,4 @@
-package algorithm.common
+package algorithm.common.mutator
 
 import base.Chromosome
 import base.Mutator
@@ -18,5 +18,4 @@ class SingleSwapMutator : Mutator() {
         (chromosome.gens as MutableList)[firstGenIndex] = chromosome.gens[secondGenIndex]
         (chromosome.gens as MutableList)[secondGenIndex] = temp
     }
-
 }

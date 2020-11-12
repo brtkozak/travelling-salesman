@@ -4,7 +4,7 @@ import base.Chromosome
 import base.PopulationGenerator
 import kotlin.random.Random
 
-class TravellingSalesManPopulationGenerator(private val populationSize: Int) : PopulationGenerator {
+class TravellingSalesManPopulationGenerator(populationSize : Int) : PopulationGenerator(populationSize) {
 
     override fun generatePopulation(
         genDataSets: Map<Int, List<Int>>

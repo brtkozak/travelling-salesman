@@ -4,7 +4,7 @@ import base.Chromosome
 import base.Crosser
 import kotlin.random.Random
 
-class SinglePointCrossover : Crosser {
+class SinglePointCrossover : Crosser() {
 
     override fun cross(parents: Pair<Chromosome, Chromosome>): Pair<Chromosome, Chromosome> {
         val dividePoint = Random.nextInt(parents.first.gens.size + 1)

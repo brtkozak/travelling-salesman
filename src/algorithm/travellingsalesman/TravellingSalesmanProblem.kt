@@ -1,6 +1,7 @@
 package algorithm.travellingsalesman
 
 import algorithm.common.Printer
+import algorithm.common.mutator.Inversion
 import base.*
 
 class TravellingSalesmanProblem(
@@ -8,8 +9,11 @@ class TravellingSalesmanProblem(
     data: Array<IntArray>,
     rater: RouteRater,
     selector: Selector,
-    mutator: Mutator
-) : Problem(populationGenerator, data, rater, selector, mutator) {
+    crosser: Crosser,
+    mutator: Mutator,
+    inversion: Mutator? = null,
+    exclusivityPercentage: Double = 0.0
+) : Problem(populationGenerator, data, rater, selector, crosser, mutator, inversion, exclusivityPercentage) {
 
     override fun initPopulation() {
         population.clear()
@@ -37,13 +41,21 @@ class TravellingSalesmanProblem(
         }
     }
 
-    override fun selectAndCross() {
-        population = selector.selectAndCross(population) as MutableList<Chromosome>
+    override fun select() {
+        population = selector.selectPopulation(population) as MutableList<Chromosome>
+    }
+
+    override fun cross() {
+        population = crosser.crossPopulation(population) as MutableList<Chromosome>
     }
 
     override fun mutate() {
-        population.forEach {
-            mutator.mutate(it)
+        population = mutator.mutatePopulation(population) as MutableList<Chromosome>
+    }
+
+    override fun inverse() {
+        inversion?.let {
+            population = it.mutatePopulation(population) as MutableList<Chromosome>
         }
     }
 

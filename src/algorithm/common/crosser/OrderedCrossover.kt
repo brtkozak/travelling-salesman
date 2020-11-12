@@ -4,7 +4,7 @@ import base.Chromosome
 import base.Crosser
 import kotlin.random.Random
 
-class OrderedCrossover : Crosser {
+class OrderedCrossover : Crosser() {
 
     override fun cross(parents: Pair<Chromosome, Chromosome>): Pair<Chromosome, Chromosome> {
         var firstSplitPoint = Random.nextInt(parents.first.gens.size + 1)
@@ -35,22 +35,26 @@ class OrderedCrossover : Crosser {
         }
         var placesAtStart = firstSplitPoint
         for (i in secondSplitPoint until secondParent.gens.size) {
-            if (!beginning.contains(secondParent.gens[i]) && !core.contains(secondParent.gens[i]) && !ending.contains(secondParent.gens[i])) {
-                if(placesAtStart > 0) {
+            if (!beginning.contains(secondParent.gens[i]) && !core.contains(secondParent.gens[i]) && !ending.contains(
+                    secondParent.gens[i]
+                )
+            ) {
+                if (placesAtStart > 0) {
                     beginning.add(secondParent.gens[i])
                     placesAtStart--
-                }
-                else
+                } else
                     ending.add(secondParent.gens[i])
             }
         }
         for (i in 0 until secondSplitPoint) {
-            if (!beginning.contains(secondParent.gens[i]) && !core.contains(secondParent.gens[i]) && !ending.contains(secondParent.gens[i])) {
-                if(placesAtStart > 0) {
+            if (!beginning.contains(secondParent.gens[i]) && !core.contains(secondParent.gens[i]) && !ending.contains(
+                    secondParent.gens[i]
+                )
+            ) {
+                if (placesAtStart > 0) {
                     beginning.add(secondParent.gens[i])
                     placesAtStart--
-                }
-                else
+                } else
                     ending.add(secondParent.gens[i])
             }
         }
